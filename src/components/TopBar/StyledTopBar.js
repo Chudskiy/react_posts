@@ -1,0 +1,7 @@
+import styled from 'styled-components';
+import {Menu} from "antd";
+
+export const StyledMenu = styled(Menu)`
+    width: 70%;
+    margin: 0 auto;
+`;

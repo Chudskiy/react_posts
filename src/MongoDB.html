@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+RESULT
+
+Написать запрос на отображение ТОП-10 активных пользователей,
+активность учитывается по кол-ву комментариев
+
+db.comments.aggregate([
+{ $unwind : "$userId" },
+{ $group : { _id : '$userId', len : { $sum : 1 } } },
+{ $sort : { len : -1 } },
+{ $limit : 10 }
+])
+-----------------------------------------------------
+получение реальной оценки продукта (усреднённой),
+
+кол-во оценивших пользователей,
+
+кол-во комментариев под продуктом,
+
+
+product {
+}
+
+
+
+
+
+
+
+
+<h1>My MongoDB</h1>
+
+ARRAY WITH MAX LENGTH,  SORT ARRAYS BY LENGTH
+db.users.aggregate( [
+{ $unwind : "$comments" },
+{ $group : { _id : "$_id", len : { $sum : 1 } } },
+{ $sort : { len : -1 } },
+{ $limit : 1 }
+] )
+
+?????
+db.collection.aggregate([
+{$unwind: "$likes"},
+{$group: {_id: "$_id", likesCount: {$sum: 1}}},
+{$sort: {likesCount: -1}},
+{$limit: 10},
+<!--{$project: {_id: 1}}-->
+])
+
+
+ENTITIES
+1) Users;
+2) Goods;
+3) Comments to Goods;
+4) Evaluates (from 1 to 5 stars);
+
+Пользователь имеет связь с товаром many-to-many
+оставить комментарий многим товарам
+одному товару могут оставить комментарии много пользователей
+
+Пользователь имеет связь с комментариями many-to-many
+оставить комментарий многим товарам
+одному товару могут оставить комментарии много пользователей
+
+1) Create 2 users
+
+db.users.insertMany([
+{
+    'name': 'John',
+    'comments': ['One', 'Two', 'Three],
+},
+{
+    'name': 'Donald',
+    'comments': ['One', 'Two', 'Three', 'Four', 'Five'],
+},
+]);
+
+user-comment many-to-one comment has field userId
+
+<!--comment-product one-to-many product has field commentId-->
+comment-product many-to-one product has field commentId
+
+
+USERS, COMMENTS, PRODUCTS, RATINGS
+
+RATINGS
+{
+user._id,
+product._id
+}
+
+USERS
+{
+name
+}
+
+COMMENTS
+{
+body,
+userId,
+productId
+}
+
+PRODUCT
+{
+commentId
+stars: []
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+db.createCollection('users')
+db.createCollection('comments')
+
+
+
+
+
+
+<p>
+    db.users.insertOne(
+    {
+    'name':'John',
+    'email':'test@mail.com',
+    'age':23,
+    'hasCar':true,
+    'favColors':['Green', 'Red', 'Black'],
+    'child': {'name': 'Jack', 'surname': 'Charlie', 'age': 5}
+    }
+    )
+</p>
+
+db.users.find({id: 10}).limit(1)
+
+db.users.insertOne({});
+db.users.insertMany([{}, {}, {}]);
+-----------------------------
+db.users.find() //get all users;
+db.users.find().limit(2) //get 2 users;
+db.users.find({}, {_id: 0}).limit(2) //if i not want to get id;
+db.users.find({}, {_id: 0}).limit(2).sort({age: 1, email: 1}) //if i not want to get id;
+db.users.find({age: 20}, {_id: 0}) //filter;
+// or
+db.users.find({$or: [{age: 20}, {email: 'test@mail.com}]}, {_id: 0}) //filter;
+// $lt  - less then
+// $lte - less then or equal
+// $gt  - greater then
+// $gte - greater then or equal
+// $eq  - equal
+// $ne  - not equal
+db.users.find({$or: [{age: {$lt: 38}}, {email: 'test@mail.com}]}, {_id: 0}) //filter;
+
+// $nin - not in
+db.users.find({name: {$in: ['Bob', 'John']}}, {_id: 0});
+
+// if exist child field
+db.users.find({child: {exist: true}});
+
+// if exist colors array and array.length < 2
+db.users.find({favColors: {$size: 2}});
+
+// if first element color is red
+db.users.find({'favColors.1': 'Red'});
+
+// comparison all elements less then a
+db.users.find({favColors: {$elemMatch: {$lt: 'a'}}});
+
+db.users.find({_id: 5}, {post: {_id: 5}})
+
+----------------------------------------
+EDIT DATA
+
+// update one age from 22 to 25
+db.users.updateOne({age: 22}, {$set: {age: 25}});
+
+// update many age from 22 to 25
+db.users.updateMany({age: 22}, {$set: {age: 25}});
+
+// update many age from 22 to 25  FIELD
+db.users.updateMany({age: 22}, {$set: {name: 'User', email: 'bbb@mail.com'}});
+
+// update many age from 22 to 25, CHANGE to new object
+db.users.replaceOne(
+{age: 22},
+{name: 'New User', hasCar: true, password '234', hasWife: true}
+);
+
+-----------------------------
+
+DELETE
+
+db.users.deleteOne({age: {$gte: 32}, age: {$lt: 38}}};
+
+COMPARE QUERIES
+
+db.users.bulkWrite([
+    {
+        insertOne: {
+            'document': {'name': 'Mike', age: 45}
+
+        }
+    },
+    {
+        deleteOne: {
+            filter: {age: 35}
+
+        }
+    },
+    {
+        updateOne: {
+            filter: {name: 'Mike'},
+            update: {$set: {email: 'new_email@mail.com'}}
+
+        }
+    },
+    {
+        replaceOne: {
+            filter: {name: 'John'},
+            replacement: {name: 'Johnie', etc................}
+        }
+    },
+])
+
+
+
+db.articles.createIndex()
+
+
+use basename
+
+// 097 - 727 - 27 - 95
+
+
+
+
+</body>
+</html>
