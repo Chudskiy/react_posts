@@ -88,7 +88,7 @@ export const getPostAsync = (postId) => {
                 dispatch(getPost(res.data));
             })
             .then(error => {
-                console.log('error = ', error);
+                console.error(error);
             })
     };
 };
@@ -108,7 +108,7 @@ export const deletePostAsync = (postId) => {
                 dispatch(deletePost(postId));
             })
             .then(error => {
-                console.log('error = ', error);
+                console.error(error);
             })
     }
 };
@@ -122,25 +122,16 @@ export const deletePost = (postId) => {
 
 
 export const likeAsync = (postId, likeType) => {
-    console.log('postId, payload = ', postId, likeType)
     return async (dispatch) => {
         await api.addLike(postId, likeType)
             .then(res => {
                 console.log('success response = ', res)
-                // dispatch(addLike(postId, payload));
             })
             .then(error => {
-                console.log('error = ', error);
+                console.error(error);
             })
     }
 };
-
-// export const addLike = (postId, likeType) => {
-    // return {
-//         type: DELETE_POST,
-//         payload: postId, likeType,
-//     }
-// };
 
 export const dislikeAsync = (postId, likeType) => {
     console.log('postId, payload = ', postId, likeType)

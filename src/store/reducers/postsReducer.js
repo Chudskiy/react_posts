@@ -59,18 +59,3 @@ export const postsReducer = (state = initialState, action) => {
 }
 
 
-// action.payload.forEach(post =>
-//     newState.posts.byId[post.id] = post
-// );
-// newState.posts.allIds = action.payload.map(post => post.id);
-
-
-//     action.payload.forEach((post) => (
-//         newState.posts.byId[post.id] = post,
-//             [...newState.posts.allIds, post.id]
-//             // newState.posts.allIds = [...newState.posts.allIds, post.id]
-//             // newState.posts.allIds.push(post.id)
-//     ));
-//
-//     console.log('new state in fetch = ', state)
-

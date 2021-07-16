@@ -17,7 +17,6 @@ const ShowPost = (props) => {
     const title = post && post.title;
     const body = post && post.body;
     const image = post && post.image;
-    // const createdAT = post && post.created_at.slice(0, 10);
     const createdAT = post && post.created_at;
     const authorId = post && post.userId;
 

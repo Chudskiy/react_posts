@@ -33,7 +33,6 @@ const PostForm = ({history}) => {
     const dispatch = useDispatch();
 
     const handleSubmit = async (values) => {
-        // console.log('values in postForm = ', values);
         dispatch(createPostAsync(values));
 
         history.push('/');
